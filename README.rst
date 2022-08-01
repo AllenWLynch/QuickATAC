@@ -25,7 +25,7 @@ For now, please install the package through github:
 
 .. code-block:: bash
 
-    $ https://github.com/AllenWLynch/QuickATAC.git
+    $ git clone https://github.com/AllenWLynch/QuickATAC.git
     $ cd QuickATAC
     $ pip install .
 
