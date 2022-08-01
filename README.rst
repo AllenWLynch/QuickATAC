@@ -5,7 +5,7 @@ QuickATAC
 About
 -----
 
-A package for manipulation of fragment files, envisioned as a superset of "Bedtools". 
+A package for manipulation of fragment files, envisioned as a superset of bedtools. 
 The goal of this package is to provide a set of portable command-line based tools that, like bedtools,
 are individually simple but compose to enable powerful manipulation of scATAC-seq fragment files. 
 
@@ -15,24 +15,26 @@ the UNIX environment and reduces memory overhead.
 Dependencies
 ------------
 
-The only dependencies are *scipy*, *Bedtools* and *python*. 
+The only dependencies are **scipy**, **Bedtools** and **python**. 
 **Make sure Bedtools is already installed and on your PATH before running QuickATAC**.
 
 Installation
 ------------
 
-For now, please clone the git repository, then `cd` into the QuickATAC folder and run:
+For now, please install the package through github:
 
 .. code-block:: bash
-    
+
+    $ https://github.com/AllenWLynch/QuickATAC.git
+    $ cd QuickATAC
     $ pip install .
 
-This will add the `quick` command to your *PATH*.
+This will add the **quick** command to your *PATH*.
 
 Usage
 -----
 
-The star of the show is the `agg-countmatrix` command, which takes a fragment file,
+The star of the show is the **agg-countmatrix** command, which takes a fragment file,
 genome file (also called a chrom sizes file), and a set of peaks called via CellRanger
 or MACS2, and outputs a 10X mtx-style countmatrix showing fragment counts at each peak for 
 each barcode.
@@ -107,12 +109,12 @@ pull request to this repo.
 
 **Adding a tool**
 
-A tool should get its own `.py` file, and should implement  `add_arguments` and `main` methods,
-along with whatever else is needed to make that tool work (See *quickatac/label_fragments.py* for a
+A tool should get its own **.py** file, and should implement  **add_arguments** and **main** methods,
+along with whatever else is needed to make that tool work (See **quickatac/label_fragments.py** for a
 documented example). Ideally, the tool can stream in and stream out data, which should then be the 
 default options for the CLI. 
 
-Then, in *quckatac/cli.py*, import that tool:
+Then, in **quckatac/cli.py**, import that tool:
 
 .. code-block:: python
 
