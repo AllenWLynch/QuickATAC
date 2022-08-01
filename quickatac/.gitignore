@@ -1,0 +1,4 @@
+build/
+quick
+*.egg-info
+data/
