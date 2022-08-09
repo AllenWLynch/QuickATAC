@@ -42,7 +42,10 @@ def _iou(r1, r2, threshold = 0.2):
 
 def _merge(*, overlap_peaks, summit_set, genome):
 
-    significance = np.array([-float(r.annotation[1]) for r in summit_set.regions]).argsort()
+	if( summit_set.regions[0].annotation is None):
+        significance = np.array([-float(r.end) for r in summit_set.regions]).argsort()
+    else:
+        significance = np.array([-float(r.annotation[1]) for r in summit_set.regions]).argsort()
 
     blacklist = {}
     peaklist = []
