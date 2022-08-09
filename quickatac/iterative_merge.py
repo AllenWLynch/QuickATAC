@@ -41,8 +41,7 @@ def _iou(r1, r2, threshold = 0.2):
     
 
 def _merge(*, overlap_peaks, summit_set, genome):
-
-	if( summit_set.regions[0].annotation is None):
+    if( summit_set.regions[0].annotation is None):
         significance = np.array([-float(r.end) for r in summit_set.regions]).argsort()
     else:
         significance = np.array([-float(r.annotation[1]) for r in summit_set.regions]).argsort()
@@ -106,11 +105,21 @@ def main(args):
     )
 
     for peak in peaklist.regions:
-        print(
-            str(peak.chromosome), 
-            peak.start, 
-            peak.end, 
-            peak.source, 
-            peak.annotation[1], 
+        if(peak.annotation is None):
+            print(
+                str(peak.chromosome), 
+                peak.start, 
+                peak.end, 
+                peak.source, 
             file = args.outfile, sep = '\t', end = '\n'
         )
+        else:
+
+            print(
+                str(peak.chromosome), 
+                peak.start, 
+                peak.end, 
+                peak.source, 
+                peak.annotation[1], 
+                file = args.outfile, sep = '\t', end = '\n'
+            )
