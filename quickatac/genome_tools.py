@@ -21,7 +21,7 @@ class Region:
                 line = line.strip().split('\t')
                 assert(len(line) >= 3)
                 regions.append(
-                    cls(*line[:3], annotation= None if len(line[3:]) == 0 else line[3:])
+						cls(*line[:3], annotation= None if len(line[3:]) == 0 else line[3:])
                 )
         
         return regions

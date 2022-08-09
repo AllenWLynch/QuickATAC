@@ -3,8 +3,9 @@ import sys
 
 from quickatac import iterative_merge, aggregate_countmatrix, \
         filter_fragment_barcodes, filter_chromosomes, label_fragments, \
-        interleave_fragments, countmatrix_command, mintest, \
+        interleave_fragments, countmatrix_command,\
         check_columns
+        #mintest, 
 
 class MyArgumentParser(argparse.ArgumentParser):
     def convert_arg_line_to_args(self, arg_line):
@@ -29,7 +30,7 @@ add_subcommand(aggregate_countmatrix, 'count-intersection')
 add_subcommand(filter_chromosomes, 'filter-chroms')
 add_subcommand(label_fragments, 'label-fragments')
 add_subcommand(interleave_fragments, 'interleave-fragments')
-add_subcommand(mintest, 'min-test')
+#add_subcommand(mintest, 'min-test')
 add_subcommand(check_columns, 'check-format')
 
 def main():
