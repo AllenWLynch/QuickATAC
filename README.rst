@@ -49,7 +49,7 @@ each barcode.
     Positional args:
     FRAGMENT_FILE
                             scATAC-seq fragment file, tab-separated with five
-                            columns: chrom, start, end, barcode, count.May be
+                            columns: chrom, start, end, barcode, count. May be
                             gzipped, MUST BE SORTED!
 
     Keyword args:
@@ -59,13 +59,13 @@ each barcode.
                             separated with two columns: chrom, length
     --peaks-file PEAKS_FILE, -p PEAKS_FILE
                             File of peaks or genomic intervals with which to to
-                            intersect fragments.Must be a tab-separated bed file
-                            with atleast three columns.The first three must be:
+                            intersect fragments. Must be a tab-separated bed file
+                            with atleast three columns. The first three must be:
                             chrom, start, end, followed by any number of columns.
     --out-prefix OUT_PREFIX, -o OUT_PREFIX
                             Output prefix for writing count matrix.The count
                             matrix is saved as three files: barcodes.tsv.gz,
-                            features.tsv.gz, and matrix.mtx.gzout-prefix may be a
+                            features.tsv.gz, and matrix.mtx.gz. out-prefix may be a
                             prefix string or a directory name.
 
     optional arguments:
@@ -74,6 +74,10 @@ each barcode.
                             string. The default allows counting for only major
                             numbered and sex chromosomes, so alternate contigs
                             will be removed.
+    --min-fragsize MIN_FRAGSIZE, -min MIN_FRAGSIZE
+                            Minimum fragment length to count
+    --max-fragsize MAX_FRAGSIZE, -max MAX_FRAGSIZE
+                            Maximum fragment length to count
 
 **Example:**
 
