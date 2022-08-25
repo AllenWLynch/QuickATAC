@@ -25,7 +25,7 @@ For now, please install the package through github:
 
 .. code-block:: bash
 
-    $ https://github.com/AllenWLynch/QuickATAC.git
+    $ git clone https://github.com/AllenWLynch/QuickATAC.git
     $ cd QuickATAC
     $ pip install .
 
@@ -131,7 +131,7 @@ And register a subcommand for the tool via:
 
 .. code-block:: python
 
-    add_subcommand(label_fragments, 'label_fragments')
+    add_subcommand(label_fragments, 'label-fragments')
 
 The first parameter is the tool, and the second parameter is the name of the subcommand
 in the CLI.
