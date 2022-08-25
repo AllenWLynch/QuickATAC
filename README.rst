@@ -41,16 +41,19 @@ each barcode.
 
 .. code-block:: bash
 
-    usage: quick agg-countmatrix [-h] --fragment-file FRAGMENT_FILE --genome-file
+    usage: quick agg-countmatrix [-h] FRAGMENT_FILE --genome-file
                              GENOME_FILE --peaks-file PEAKS_FILE --out-prefix
                              OUT_PREFIX
                              [--chrom-match-string CHROM_MATCH_STRING]
 
-    -h, --help            show this help message and exit
-    --fragment-file FRAGMENT_FILE, -f FRAGMENT_FILE
+    Positional args:
+    FRAGMENT_FILE
                             scATAC-seq fragment file, tab-separated with five
                             columns: chrom, start, end, barcode, count.May be
                             gzipped, MUST BE SORTED!
+
+    Keyword args:
+    -h, --help            show this help message and exit
     --genome-file GENOME_FILE, -g GENOME_FILE
                             Genome file (also called chromlengths file). Tab
                             separated with two columns: chrom, length
@@ -77,7 +80,7 @@ each barcode.
 .. code-block:: bash
 
     $ quick agg-countmatrix \
-        -f atac_fragments.tsv.gz \
+        atac_fragments.tsv.gz \
         -g genome.txt \
         -p peaks.bed \
         -o counts/

@@ -1,18 +1,20 @@
 
-import argparse
 from quickatac import genome_tools as gt
 from quickatac.base import add_default_output
 import tqdm
 import numpy as np
-import sys
 import os
+from functools import partial
 
 def check(genome, region):
     try:
         genome.check_region(region)
+        float(region.annotation[1])
         return True
     except gt.NotInGenomeError:
         return False
+    except (TypeError, IndexError) as err:
+        raise ValueError('Region ' + str(region) + ' was not annotated with a name and p-value. These attributes must be present for merging.') from err
 
        
 def add_source(self, source):
@@ -63,17 +65,23 @@ def _merge(*, overlap_peaks, summit_set, genome):
     return peaklist
 
 
-def iterative_merge(*,
+def iterative_merge(
+    iou = 0.2,*,
     peak_files,
     genome_file,
     ):
+
+    assert isinstance(iou, (float, int)) and iou >= 0 and iou <= 1
 
     genome = gt.Genome.from_file(genome_file)
 
     summits = _collect_summits(peak_files, genome)
 
     summit_set = gt.RegionSet(summits, genome)
-    overlap_peaks = summit_set.map_intersects(summit_set, distance_function=_iou)
+    overlap_peaks = summit_set.map_intersects(
+        summit_set, 
+        distance_function= partial(_iou, threshold = iou),
+    )
 
     overlap_peaks.eliminate_zeros()
     overlap_peaks = overlap_peaks.tocsr()
@@ -92,6 +100,9 @@ def add_arguments(parser):
         help = 'List of MACS summit files to merge')
     parser.add_argument('--genome-file','-g', type = str, 
         help = 'Genome file (or chromlengths file).', required = True)
+    parser.add_argument('-iou', type = float, default = 0.2,
+        help = 'Minimum intersection over union (iou) that must be met between peaks '
+               'in order to consider merging.')
     
     add_default_output(parser)
 
@@ -99,7 +110,8 @@ def main(args):
 
     peaklist = iterative_merge(
         peak_files=args.peakfiles,
-        genome_file= args.genome_file
+        genome_file= args.genome_file,
+        iou = args.iou,
     )
 
     for peak in peaklist.regions:

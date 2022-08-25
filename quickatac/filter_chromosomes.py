@@ -11,7 +11,7 @@ def _get_whitelist_chroms(genome, match_string):
         if not chrom_match.search(chromosome) is None
     ]
 
-def _apply_filter(fragments, genome, chr_match_string = '^(chr)[(0-9)|(X,Y)]+$'):
+def filter_chromosomes(fragments, genome, chr_match_string = '^(chr)[(0-9)|(X,Y)]+$'):
 
     chroms = _get_whitelist_chroms(genome, chr_match_string)
 
@@ -33,5 +33,5 @@ def add_arguments(parser):
 
 def main(args):
 
-    for fragment in _apply_filter(args.fragments, args.genome, args.chr_match_string):
+    for fragment in filter_chromosomes(args.fragments, args.genome, args.chr_match_string):
         args.outfile.write(fragment + '\n')

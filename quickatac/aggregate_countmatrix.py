@@ -7,6 +7,7 @@ from scipy.io import mmwrite
 import sys
 import os
 import gzip
+import numpy as np
 
 def try_file(path):
 
@@ -93,6 +94,21 @@ def write_barcodes(outfile, barcodes, n_background):
     for bc, n in zip(barcodes, n_background):
         addline(outfile, bc)
 
+
+def write_meta(outfile, mtx, barcodes, n_background):
+
+    n_background = n_background.reshape(-1)
+    fragments_in_peaks = np.array(mtx.sum(-1)).reshape(-1)
+    frip = fragments_in_peaks/(fragments_in_peaks + n_background)
+
+    addline(outfile, 'barcode','n_fragments_in_peaks','n_background_fragments','FRIP')
+
+    for fields in zip(
+        barcodes, fragments_in_peaks, n_background, frip
+    ):
+        addline(outfile, *fields)
+
+
 def write_features(outfile, peaks):
 
     for i, (chr, start, end) in enumerate(peaks):
@@ -111,6 +127,9 @@ def write_data(prefix, mtx, barcodes, peaks):
     logger.info('Writing barcodes file.')
     with gzip.open(name_formatter(prefix, 'barcodes.tsv.gz'), 'wb') as f:
         write_barcodes(f, barcodes, n_background)
+
+    with gzip.open(name_formatter(prefix, 'barcodes_meta.tsv.gz'), 'wb') as f:
+        write_meta(f, mtx, barcodes, n_background)
     
     logger.info('Writing features file.')
     with gzip.open(name_formatter(prefix, 'features.tsv.gz'), 'wb') as f:

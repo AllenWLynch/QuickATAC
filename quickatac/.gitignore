@@ -2,3 +2,4 @@ build/
 quick
 *.egg-info
 data/
+__pycache__/

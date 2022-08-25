@@ -6,8 +6,12 @@ import sys
 import argparse
 from quickatac.base import is_gzipped
 
-def countmatrix(*,fragment_file, peaks_file, genome_file, out_prefix,
-    chrom_match_string = "^(chr)[(0-9)|(X,Y)]+$"):
+def countmatrix(*,
+    fragment_file, peaks_file, genome_file, out_prefix,
+    chrom_match_string = "^(chr)[(0-9)|(X,Y)]+$",
+    min_fragsize = 15, 
+    max_fragsize = 294
+    ):
 
     try:
         size = os.path.getsize(fragment_file.name)
@@ -51,10 +55,18 @@ def countmatrix(*,fragment_file, peaks_file, genome_file, out_prefix,
         stdout= subprocess.PIPE,
     )
 
+    fragsize_command = subprocess.Popen(
+        ['quick','filter-fragsize',
+        '-min', str(min_fragsize),
+        '-max', str(max_fragsize)],
+        stdin = filter_command.stdout,
+        stdout= subprocess.PIPE,
+    )
+
     intersect_command = subprocess.Popen(
         ['bedtools','intersect','-a','-','-b', peaks_file,
         '-loj','-sorted','-wa','-wb'],
-        stdin = filter_command.stdout, stdout = subprocess.PIPE,
+        stdin = fragsize_command.stdout, stdout = subprocess.PIPE,
     )
 
     count_command = subprocess.Popen(
@@ -83,7 +95,9 @@ def main(args):
         peaks_file = args.peaks_file,
         genome_file = args.genome_file,
         out_prefix = args.out_prefix,
-        chrom_match_string = args.chrom_match_string
+        chrom_match_string = args.chrom_match_string,
+        min_fragsize=args.min_fragsize,
+        max_fragsize=args.max_fragsize,
     )
 
 def add_arguments(parser):
@@ -113,3 +127,10 @@ def add_arguments(parser):
         default = "^(chr)[(0-9)|(X,Y)]+$",
         help = 'Filter out chromosomes that do not match this regex string. The default allows counting for'
                'Only major numbered and sex chromosomes, so alternate contigs will be removed.')
+
+    parser.add_argument('--min-fragsize','-min',type = int, default = 15,
+        help = 'Minimum fragment length to count')
+
+    parser.add_argument('--max-fragsize','-max',type = int, default = 294,
+        help = 'Maximum fragment length to count')
+    
