@@ -1,4 +1,4 @@
-from typing import Type
+
 from quickatac.base import enforce_string, add_default_input, add_default_output
 
 def filter_fragsize(fragment_stream, min_size = 15, max_size = 294):

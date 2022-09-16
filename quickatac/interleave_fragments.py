@@ -1,7 +1,4 @@
 
-import argparse
-from ossaudiodev import SNDCTL_TMR_SOURCE
-import sys
 from quickatac.base import OptionalGzipFiletype, add_default_output
 
 class SkipRecordException(Exception):
